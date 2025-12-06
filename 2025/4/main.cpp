@@ -11,7 +11,7 @@ int is_paper(const char &c) {
         return 1;
     } else {
         return 0;
-    }
+    } 
 }
 
 bool is_access(const std::vector<std::string> &cells, int row, int col) {
