@@ -59,29 +59,31 @@ void print_bits(light_conf bs) {
     std::cout << bs.to_string() << " ";
 }
 
-int solve_smallest_button_press_count(std::pair<light_conf, button_vec> ld) {
+int solve_smallest_button_press_count(const std::pair<light_conf, button_vec> &ld) {
     int press_count = 0;
     // set empty state for start
     light_conf lc;
     std::vector<light_conf> light_states {lc};
+    std::vector<light_conf> new_states;
+    light_state new_state;
     while (true)
     {
-        std::vector<light_conf> new_states;
         press_count++;
         for (auto state : light_states) {
+            // try all button presses, return if it works, else add to new states
             for (auto button : ld.second) {
-                light_state new_state = state ^ button;
-
+                new_state = state ^ button;
                 if (new_state == ld.first) {
                     //std::cout<<"solved with state: ";
                     //print_bits(new_state);
-                    std::cout<<"With "<<press_count<<" button presses\n";
+                    //std::cout<<"With "<<press_count<<" button presses\n";
                     return press_count;
                 }
                 new_states.push_back(new_state);
             }
         }
         light_states = new_states;
+        new_states.clear();
     }
     return press_count;
 }
@@ -91,7 +93,7 @@ int main(int argc, char const *argv[])
     std::ifstream file("input.txt");
     std::string str;
     std::vector<std::string> problems;
-
+    
     while (std::getline(file, str)) {
         problems.push_back(str);
     }
